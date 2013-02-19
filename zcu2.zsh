@@ -16,134 +16,124 @@
 
 mkhead() {
         # Make the head of doc
-        mkreq "text/html; charset=UTF-8"
-        print '<!doctype html>'
-        html
-        head
-        [[ -n "$title" ]] && title "$title"
-        [[ -n "$css" ]] && Css "$css"
-        [[ -n "$headelse" ]] && print "$headelse"
-        endhead
-        body
+	mkreq "text/html; charset=UTF-8"
+	print '<!doctype html>'
+	Html
+	Head
+	[[ -n "$title" ]] && Title "$title"
+	[[ -n "$css" ]] && Css "$css"
+	[[ -n "$headelse" ]] && print "$headelse"
+	endHead
+	Body
 }
 mkreq() {
-        # Raise Mimetype
-        MIME="$*"
-        print "Content-type: $MIME\n"
+	# Raise Mimetype
+	MIME="$*"
+	print "Content-type: $MIME\n"
 }
 mkfoot() {
-        # Make the foot of doc
-        [[ -n "$footer" ]] && echo "$footer"
-        endbody
-        endhtml
+	# Make the foot of doc
+	[[ -n "$footer" ]] && echo "$footer"
+	endBody
+	endHtml
 }
 Css() {
-        link --rel=stylesheet --type=text/css --src=$1
+	Link --rel=stylesheet --type=text/css --href=$1
 }
 
 ###### CORE
 cargs() {
-        # Core function: convert a POSIX command-line to variables
-        local value=
-        attrs= tag= content=
-        for arg in "$@"; do
-                case "$arg" in
-                        --?*\=?*)
-                                attr=${arg#--}
-                                value=${attr#*\=}
-                                attr=${attr%%\=*}
-                                attrs+=" $attr=\"$value\""
-                        ;;
-                        --?*)
-                                tag="${arg#--}"
-                        ;;
-                        *)
-                                content+="$arg"
-                        ;;
-                esac
-        done
+	# Core function: convert a POSIX command-line to variables
+	local value=
+	attrs= tag= content=
+	for arg in "$@"; do
+		case "$arg" in
+			--?*\=?*)
+				attr=${arg#--}
+				value=${attr#*\=}
+				attr=${attr%%\=*}
+				attrs+=" $attr=\"$value\""
+			;;
+			--?*)
+				tag="${arg#--}"
+			;;
+			*)
+				content+="$arg"
+			;;
+		esac
+	done
 }
 ######/CORE
 
 # 1.2 Block Elems
 # like <div>
-#               ...
-#          </div>
+#		...
+#	   </div>
 
 Begin() {
-        # Begining of a `block' elem.
-        cargs "$@"
-        [[ -z "$tag" ]] && tag=div
-        echo "<$tag$attrs>"
+	# Begining of a `block' elem.
+	cargs "$@"
+	[[ -z "$tag" ]] && tag=div
+	echo "<$tag$attrs>"
 }
 End() {
-        # Ending of a `block' elem
-        cargs "$@"
-        [[ -z "$tag" ]] && tag=div
-        echo "</$tag>"
+	# Ending of a `block' elem
+	cargs "$@"
+	[[ -z "$tag" ]] && tag=div
+	echo "</$tag>"
 }
 genBlockBegin() {
-        for x in "$@"; do
-                eval "$x()"'{Begin --'"$x"' $@;}'
-        done
+	for x in "$@"; do
+		X=${(C)x}
+		eval "$X()"'{Begin --'"$x"' $@;}'
+	done
 }
 genBlockEnd() {
-        for x in "$@"; do
-                eval "end$x()"'{End --'"$x"' $@;}'
-        done
+	for x in "$@"; do
+		X=${(C)x}
+		eval "end$X()"'{End --'"$x"' $@;}'
+	done
 }
 genBlock() {
-        for x in "$@"; do
-                genBlockBegin "$x"
-                genBlockEnd "$x"
-        done
+	for x in "$@"; do
+		genBlockBegin "$x"
+		genBlockEnd "$x"
+	done
 }
-genBlock html head body table form dl ol ul address blockquote pre script style fieldset textarea
+genBlock html head body div table tr thead tfoot form dl ol ul address blockquote pre script style fieldset textarea
 # For HTML5 #
 genBlock article section header nav footer datalist details audio video
-
-# For special elems #
-# eg: x(){Begin --x "$@";}
-
-# row() for <tr>, to avoid the name of a command tr.
-row(){Begin --tr "$@";}
-endrow(){End --tr "$@";}
 
 # 1.3 Oneline Elems
 # like <p>...</p>
 
 Oneline() {
-        cargs "$@"
-        [[ -z "$tag" ]] && tag=p
-        echo "<$tag$attrs>$content</$tag>"
+	cargs "$@"
+	[[ -z "$tag" ]] && tag=p
+	echo "<$tag$attrs>$content</$tag>"
 }
 genOneline() {
-        for x in "$@"; do
-                eval "$x()"'{Oneline --'"$x"' $@;}'
-        done
+	for x in "$@"; do
+		X=${(C)x}
+		eval "$X()"'{Oneline --'"$x"' $@;}'
+	done
 }
-genOneline p th td strong em code kbd samp cite dfn var li a abbr caption dt title ins del a button label legend h1 h2 h3 h4 h5 h6
+genOneline p th td strong em code kbd samp cite dfn var li a abbr caption dt dd title ins del a button label legend h1 h2 h3 h4 h5 h6
 # For HTML5 #
 genOneline summary
-
-# For special elems #
-
-# def() for <dd>, to avoid the name of a command dd.
-def(){Oneline --dd "$@";}
-# sel() for <select>, to avoid the keyword select
-sel(){Oneline --select "$@"}
 
 # 1.4 Self-closed Elems
 # like <br />
 SelfClose() {
-        cargs "$@"
-        [[ -z "$tag" ]] && tag=br
-        echo "<$tag$attrs />"
+	cargs "$@"
+	[[ -z "$tag" ]] && tag=br
+	echo "<$tag$attrs />"
 }
 genSelfClose() {
-        for x in "$@"; do
-                eval "$x()"'{SelfClose --'"$x"' $@;}'
-        done
+	for x in "$@"; do
+		X=${(C)x}
+		eval "$X()"'{SelfClose --'"$x"' $@;}'
+	done
 }
 genSelfClose br img link input hr
 
@@ -153,32 +143,32 @@ genSelfClose br img link input hr
 
 # Get the POST Data.
 if [[ -p /dev/stdin || -f /dev/stdin ]]; then
-        export POST_STRING="$(< /dev/stdin)"
+	export POST_STRING="$(< /dev/stdin)"
 fi
 readGET() {
-        [[ -z "$QUERY_STRING" ]] && return 1
-        typeset -Agx GET
-        get=(${(s:&:)QUERY_STRING}) # remove &
-        for i in $get; do
-                j=(${(s:=:)i})
-                GET+=($j)
-        done
+	[[ -z "$QUERY_STRING" ]] && return 1
+	typeset -Agx GET
+	get=(${(s:&:)QUERY_STRING}) # remove &
+	for i in $get; do
+		j=(${(s:=:)i})
+		GET+=($j)
+	done
 }
 readPOST() {
-        [[ -z "$POST_STRING" ]] && return 1
-        typeset -Agx POST
-        post=(${(s:&:)POST_STRING}) # remove &
-        for i in $post; do
-                j=(${(s:=:)i})
-                POST+=($j)
-        done
+	[[ -z "$POST_STRING" ]] && return 1
+	typeset -Agx POST
+	post=(${(s:&:)POST_STRING}) # remove &
+	for i in $post; do
+		j=(${(s:=:)i})
+		POST+=($j)
+	done
 }
 uconv() {
-        # Convert %xx expression to real chars.
-        local text="$*"
-        local output="${text/+/ }" # + -> ' '
-        local output="${output//\%/\\x}"
-        echo "$output"
+	# Convert %xx expression to real chars.
+	local text="$*"
+	local output="${text/+/ }" # + -> ' '
+	local output="${output//\%/\\x}"
+	echo "$output"
 }
 
 # 3 Other Things
@@ -187,41 +177,45 @@ uconv() {
 
 # Z Module Loading, discard the `zsh/' prefix
 useZ() {
-        for m in "$@"; do
-                zmodload "zsh/$m"
-        done
+	for m in "$@"; do
+		zmodload "zsh/$m"
+	done
 }
+# by default, we only load the mathfunc package.
+
+# Sub Files
+source /lib/zcu2_math.zsh
 
 # ZSHINFO
 zshINFO() {
-        title="ZSH Information"
-        mkhead
-        h1 "ZSH Information"
-        table
-        row
-                th "Version"
-                td $ZSH_VERSION
-        endrow
-        row
-                th "Path"
-                td $PATH
-        endrow
-        row
-                th "Operating System"
-                td $OSTYPE
-        endrow
-        row
-                th "CPU"
-                td $PROCESSOR_IDENTIFIER
-        endrow
-        row
-                th "Path"
-                td $PATH
-        endrow
-        endtable
-        pre
-        set
-        endpre
-        mkfoot
-        exit
-}#
+	title="ZSH Information"
+	mkhead
+	h1 "ZSH Information"
+	table
+	row
+		th "Version"
+		td $ZSH_VERSION
+	endrow
+	row
+		th "Path"
+		td $PATH
+	endrow
+	row
+		th "Operating System"
+		td $OSTYPE
+	endrow
+	row
+		th "CPU"
+		td $PROCESSOR_IDENTIFIER
+	endrow
+	row
+		th "Path"
+		td $PATH
+	endrow
+	endtable
+	pre
+	set
+	endpre
+	mkfoot
+	exit
+}
