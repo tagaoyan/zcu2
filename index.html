@@ -1,43 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Zcu2 : A script for CGI programming via Z Shell" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>ZCU2 by tagaoyan</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Zcu2</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
+    <div class="wrapper">
+      <header>
+        <h1>ZCU2</h1>
+        <p>A script for CGI programming via Z Shell</p>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/tagaoyan/zcu2">View on GitHub</a>
+        <p class="view"><a href="https://github.com/tagaoyan/zcu2">View the Project on GitHub <small>tagaoyan/zcu2</small></a></p>
 
-          <h1 id="project_title">Zcu2</h1>
-          <h2 id="project_tagline">A script for CGI programming via Z Shell</h2>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/tagaoyan/zcu2/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/tagaoyan/zcu2/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+        <ul>
+          <li><a href="https://github.com/tagaoyan/zcu2/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/tagaoyan/zcu2/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/tagaoyan/zcu2">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>DO NOT use this project, especially when building websited involving public access!</p>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <p>This page is <strong>not</strong> completed!</p>
+<hr>
 
-<hr><h1>Introduction</h1>
+<h1>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h1>
 
 <p>This is a Z Shell script for using Z Shell as a CGI Script.</p>
 
-<h1>Usage</h1>
+<h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h1>
 
 <p>Use</p>
 
@@ -46,9 +47,11 @@
 
 <p>at the begining of your script.</p>
 
-<h2>HTML Tags</h2>
+<h2>
+<a id="html-tags" class="anchor" href="#html-tags" aria-hidden="true"><span class="octicon octicon-link"></span></a>HTML Tags</h2>
 
-<h3>General rules</h3>
+<h3>
+<a id="general-rules" class="anchor" href="#general-rules" aria-hidden="true"><span class="octicon octicon-link"></span></a>General rules</h3>
 
 <p>We categoried HTML tags as 3 types:</p>
 
@@ -59,7 +62,9 @@
 </li>
 <li>SelfColse. eg. <code>&lt;img&gt;</code>
 </li>
-</ul><p>Commands are related to a HTML tag, and is <strong>FirstLetterCapitalized</strong> to avoid commands with same names,
+</ul>
+
+<p>Commands are related to a HTML tag, and is <strong>FirstLetterCapitalized</strong> to avoid commands with same names,
 such as <code>&lt;tr&gt;</code> and <code>tr</code></p>
 
 <p>Arguments can be given as</p>
@@ -69,7 +74,10 @@ such as <code>&lt;tr&gt;</code> and <code>tr</code></p>
 <code>--{attr}={value}</code> to make attributes of HTML tag.</li>
 <li>A <code>--{tag}</code> changed tag name.( <em>Not Recommended</em> )</li>
 <li>An argument not begin with <code>--</code> is contents if needed.(Bug: <em>if content begin with</em> <code>--</code>)</li>
-</ul><h4>Block</h4>
+</ul>
+
+<h4>
+<a id="block" class="anchor" href="#block" aria-hidden="true"><span class="octicon octicon-link"></span></a>Block</h4>
 
 <p>Use <code>{Tag}</code> and <code>end{Tag}</code>. For example</p>
 
@@ -83,7 +91,8 @@ endDiv
 &lt;/div&gt;
 </code></pre>
 
-<h4>Oneline</h4>
+<h4>
+<a id="oneline" class="anchor" href="#oneline" aria-hidden="true"><span class="octicon octicon-link"></span></a>Oneline</h4>
 
 <p>For example</p>
 
@@ -95,19 +104,16 @@ endDiv
 <pre><code>&lt;p id="foo"&gt;Hello&lt;/p&gt;
 </code></pre>
 
-<hr><p>This page is <strong>not</strong> completed!</p>
-      </section>
-    </div>
+<hr>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Zcu2 maintained by <a href="https://github.com/tagaoyan">tagaoyan</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+<p>This page is <strong>not</strong> completed!</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/tagaoyan">tagaoyan</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
-
+    <script src="javascripts/scale.fix.js"></script>
     
-
   </body>
 </html>
